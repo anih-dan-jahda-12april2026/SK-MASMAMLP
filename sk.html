@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Surat Keterangan</title>
+
+<style>
+body {
+  font-family: sans-serif;
+  background: #f5f5f5;
+  padding: 30px;
+}
+.folder {
+  background: white;
+  border-radius: 10px;
+  padding: 15px;
+  margin: 10px 0;
+  cursor: pointer;
+  font-weight: bold;
+}
+.content {
+  display: none;
+  padding-left: 20px;
+}
+a {
+  display: block;
+  margin: 5px 0;
+}
+</style>
+</head>
+
+<body>
+
+<h2>📄 Arsip Surat Keterangan</h2>
+
+<div id="container"></div>
+
+<script>
+let data = [
+  {
+    tahun: 2026,
+    semester: {
+      GANJIL: [
+        {nama: "SK Aktif", link: "https://drive.google.com/file/d/1waTkD5GEfpANSD8sy7z45BDNkuwwmyA_/view?usp=sharing"},
+        {nama: "SK Domisili", link: "LINK_FILE_2"}
+      ],
+      GENAP: [
+        {nama: "SK Lulus", link: "LINK_FILE_3"}
+      ]
+    }
+  }
+];
+
+let container = document.getElementById("container");
+
+data.forEach(d => {
+
+  let folder = document.createElement("div");
+  folder.className = "folder";
+  folder.innerHTML = "📁 SK " + d.tahun;
+
+  let semesterBox = document.createElement("div");
+  semesterBox.className = "content";
+
+  for(let sm in d.semester){
+
+    let smFolder = document.createElement("div");
+    smFolder.className = "folder";
+    smFolder.innerHTML = "📂 " + sm;
+
+    let fileBox = document.createElement("div");
+    fileBox.className = "content";
+
+    d.semester[sm].forEach(f => {
+      let link = document.createElement("a");
+      link.href = f.link;
+      link.innerText = "📄 " + f.nama;
+      link.target = "_blank";
+      fileBox.appendChild(link);
+    });
+
+    smFolder.onclick = () => {
+      fileBox.style.display =
+        fileBox.style.display === "block" ? "none" : "block";
+    };
+
+    semesterBox.appendChild(smFolder);
+    semesterBox.appendChild(fileBox);
+  }
+
+  folder.onclick = () => {
+    semesterBox.style.display =
+      semesterBox.style.display === "block" ? "none" : "block";
+  };
+
+  container.appendChild(folder);
+  container.appendChild(semesterBox);
+});
+</script>
+
+</body>
+</html>
