@@ -25,6 +25,32 @@ a {
   display: block;
   margin: 5px 0;
 }
+
+  .file-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.file-card {
+  background: #fafafa;
+  border-radius: 8px;
+  padding: 10px;
+  text-align: center;
+  border: 1px solid #ddd;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+  .file-card:hover {
+  background: #e8f0fe;
+}
+
+.file-icon {
+  font-size: 30px;
+}
+  
 </style>
 </head>
 
@@ -70,13 +96,26 @@ data.forEach(d => {
     let fileBox = document.createElement("div");
     fileBox.className = "content";
 
-    d.semester[sm].forEach(f => {
-      let link = document.createElement("a");
-      link.href = f.link;
-      link.innerText = "📄 " + f.nama;
-      link.target = "_blank";
-      fileBox.appendChild(link);
-    });
+    let grid = document.createElement("div");
+grid.className = "file-grid";
+
+d.semester[sm].forEach(f => {
+  let card = document.createElement("div");
+  card.className = "file-card";
+
+  card.innerHTML = `
+    <div class="file-icon">📄</div>
+    <div>${f.nama}</div>
+  `;
+
+  card.onclick = () => {
+    window.open(f.link, "_blank");
+  };
+
+  grid.appendChild(card);
+});
+
+fileBox.appendChild(grid);
 
     smFolder.onclick = () => {
       fileBox.style.display =
